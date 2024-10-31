@@ -15,7 +15,6 @@ An **Arduino-based Gas Weight Tracker System** designed to continuously measure 
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
-- [License](#license)
 
 ---
 
@@ -72,4 +71,75 @@ This project monitors the weight of a gas cylinder every minute using a load cel
   <p><em>Figure 1: Circuit diagram </em></p>
 </div>
 
+- **Load Cell**: This sensor measures the weight of the gas cylinder. It is connected to the HX711 amplifier, which converts the small analog signal from the load cell into a digital signal that the NodeMCU can read.
 
+- **HX711 Amplifier**: This module amplifies the load cell’s signal and connects to the NodeMCU as follows:
+  - `DT` (Data) pin on HX711 -> `D6` pin on NodeMCU
+  - `SCK` (Clock) pin on HX711 -> `D7` pin on NodeMCU
+  - `VCC` -> `3V` on NodeMCU
+  - `GND` -> `GND` on NodeMCU
+
+- **Buzzer**: The buzzer is connected to the NodeMCU to sound an alarm in case of a sudden weight drop, indicating a possible gas leak.
+  - Connect the positive terminal of the buzzer to `D0` on NodeMCU.
+  - Connect the ground terminal to `GND` on NodeMCU.
+
+## Installation
+
+1. **Clone the Repository**:  
+   Clone the repository to your local machine using the following command:
+   ```bash
+   git clone https://github.com/sajitheranda/Gas_usage_tracker_ardiuno.git
+
+2. **Set up Arduino IDE**:
+   - Install [Arduino IDE](https://www.arduino.cc/en/software).
+   - Add ESP8266 support by going to `File` > `Preferences`, and adding `http://arduino.esp8266.com/stable/package_esp8266com_index.json` to the Additional Board Manager URLs.
+
+3. **Install Libraries**:
+   - Go to `Sketch` > `Include Library` > `Manage Libraries`.
+   - Install the following libraries:
+     - `ESP8266WiFi`
+     - `FirebaseESP8266`
+     - `ArduinoJson`
+     - `NTPClient`
+     - `HX711`
+
+4. **Upload Code**:
+   - Open the `gas_weight_tracker.ino` file.
+   - Update Wi-Fi and Firebase credentials in the code.
+   - Connect your ESP8266, select the correct board and port, and upload the code.
+
+## Configuration
+
+In the source code, update the following sections:
+
+- **Wi-Fi credentials**:
+  ```cpp
+  const char* ssid = "your_SSID";
+  const char* pass = "your_PASSWORD";
+
+- **Firebase credentials**:
+  ```cpp
+  const char* firebaseHost = "your_firebase_database_url";
+  const char* firebaseAuth = "your_firebase_database_secret";
+
+
+## Usage
+
+1. **Power on the Device**:  
+   Power on the device to connect to Wi-Fi and initialize the load cell sensor.
+
+2. **Monitoring**:  
+   Every minute, the system will check the weight and push data to Firebase. The system also continuously checks for any significant weight drop.
+
+3. **Alarm**:  
+   If a weight drop is detected, indicating a possible gas leak, the system activates the alarm.
+
+## Troubleshooting
+
+- **Wi-Fi Not Connecting**:  
+   - Ensure SSID and password are correctly entered.
+   - Check if the ESP8266 is within Wi-Fi range.
+
+- **Firebase Connection Issues**:  
+   - Confirm Firebase URL and authentication token are correctly set.
+   - Verify the Firebase Realtime Database rules permit read and write access.
