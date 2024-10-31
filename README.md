@@ -69,3 +69,6 @@ This project monitors the weight of a gas cylinder every minute using a load cel
 
 The following diagram shows the wiring for the gas weight tracker system:
 
+![Gas Cylinder Presentation](https://github.com/user-attachments/assets/6b06d1fe-71e7-4cdb-b42d-5a91803f1e96)
+
+
